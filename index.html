@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllVerse Card - Jeu de Gacha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <header>
+            <h1>AllVerse Card</h1>
+            <div id="currency-bar">
+                <span>Gems: <span id="gems-count">100</span> 💎</span>
+                <span>Cristaux: <span id="cristaux-count">0</span> 🔮</span>
+            </div>
+            <div id="power-display">
+                Puissance Totale: <span id="total-power">0</span> 🔥
+            </div>
+        </header>
+
+        <main>
+            <section id="menu-section">
+                <button onclick="drawCard()" class="pixel-button">Tirer une Carte (10 Gems)</button>
+                <button onclick="showDeck()" class="pixel-button">Voir mon Deck</button>
+            </section>
+
+            <section id="display-section">
+                <!-- Les cartes tirées ou le deck s'afficheront ici -->
+                <div id="card-display"></div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

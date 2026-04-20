@@ -1,0 +1,94 @@
+/* Palette de couleurs et styles de base */
+body {
+    background-color: #1a1a2e;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#game-container {
+    width: 90%;
+    max-width: 800px;
+    background: #16213e;
+    border: 4px solid #0f3460;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* Style Pixel Art pour les boutons */
+.pixel-button {
+    background: #e94560;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    margin: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #533483;
+    image-rendering: pixelated;
+    transition: transform 0.1s;
+}
+
+.pixel-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #533483;
+}
+
+#currency-bar, #power-display {
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Style des Cartes HD */
+.card {
+    width: 200px;
+    height: 300px;
+    background: linear-gradient(135deg, #222, #444);
+    border-radius: 10px;
+    border: 2px solid gold;
+    display: inline-block;
+    margin: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.card-inner {
+    padding: 10px;
+}
+
+.rarity-legendaire { border-color: #ff4500; box-shadow: 0 0 15px #ff4500; }
+.rarity-rare { border-color: #00d2ff; }
+.rarity-basique { border-color: #ccc; }
+
+.card-name { font-weight: bold; margin-bottom: 5px; }
+.card-type { font-size: 0.8rem; color: #aaa; }
+.card-power { font-size: 1.2rem; color: #00ff00; margin-top: 10px; }
+
+
+.card-stars {
+    color: #ffd700;
+    font-size: 1.2rem;
+    margin: 5px 0;
+    text-shadow: 1px 1px 2px black;
+}
+
+.deck-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+/* On réduit un peu la taille des cartes dans le deck pour que ça rentre */
+.deck-grid .card {
+    width: 140px;
+    height: 200px;
+    font-size: 0.8rem;
+}
