@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AllVerse Card - Multivers TCG</title>
+    <title>AllVerse Card - Gacha TCG</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,85 +11,74 @@
     <div id="money-rain-container"></div>
 
     <header id="main-stats">
-        <div class="stat">💎 Gems: <span id="gems-count">1000</span></div>
+        <div class="stat">💎 Gems: <span id="gems-count">0</span></div>
         <div class="stat">🔮 Cristaux: <span id="cristaux-count">0</span></div>
-        <div class="stat">🔥 Puissance Totale: <span id="total-power">0</span></div>
+        <div class="stat">🔥 Puissance: <span id="total-power">0</span></div>
     </header>
 
     <div id="main-layout">
-        
         <nav id="sidebar">
-            <h2 style="text-align: center; color: #e94560; font-size: 1.2rem;">ALLVERSE</h2>
-            <hr style="width: 100%; border: 1px solid #0f3460; margin-bottom: 20px;">
-            
-            <button class="pixel-button" onclick="switchView('view-hub')">ACCUEIL / HUB</button>
+            <h2 style="color: #e94560; text-align: center;">ALLVERSE</h2>
+            <button class="pixel-button" onclick="switchView('view-hub')">HUB</button>
             <button class="pixel-button" onclick="switchView('view-gacha')">TIRAGES</button>
             <button class="pixel-button" onclick="switchView('view-deck')">MON DECK</button>
             <button class="pixel-button" onclick="switchView('view-shop')">BOUTIQUE</button>
-            
-            <div style="margin-top: auto; font-size: 0.7rem; color: #555; text-align: center;">
-                v0.1 - Beta
-            </div>
         </nav>
 
         <main id="content">
-
             <section id="view-hub" class="game-view">
-                <h1>BIENVENUE DANS LE HUB</h1>
-                <p>Augmentez votre <strong>Puissance</strong> pour attirer la fortune !</p>
-                <div style="margin-top: 50px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px;">
-                    <h3>Actualités</h3>
-                    <p>- Nouvelle bannière "Jeux Vidéo" disponible !</p>
-                    <p>- Les doublons rapportent désormais des Cristaux de seconde chance.</p>
-                </div>
+                <h1>BIENVENUE</h1>
+                <p>Augmentez votre puissance pour débloquer plus de récompenses !</p>
             </section>
 
             <section id="view-gacha" class="game-view">
-                <h1>INVENTAIRE DES BANNIÈRES</h1>
                 <div class="banner-list">
-                    <div class="banner" id="banner-anime">
-                        <div style="height: 100px; background: #333; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                            <strong>IMAGE ANIME</strong>
-                        </div>
+                    <div class="banner">
                         <h3>Bannière Animé</h3>
-                        <p>Contient : Goku, Luffy...</p>
-                        <button class="pixel-button" onclick="drawCard('Anime')">Tirer (10 💎)</button>
+                        <button class="pixel-button" onclick="processDraw('Anime', 1)">x1 (10 💎)</button>
+                        <button class="pixel-button" onclick="processDraw('Anime', 11)" style="background:#ffd700; color:black;">x11 (100 💎)</button>
                     </div>
-
-                    <div class="banner" id="banner-jeux">
-                        <div style="height: 100px; background: #333; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                            <strong>IMAGE JEUX</strong>
-                        </div>
-                        <h3>Bannière Jeux Vidéo</h3>
-                        <p>Contient : Mario, Link...</p>
-                        <button class="pixel-button" onclick="drawCard('Jeux')">Tirer (10 💎)</button>
+                    <div class="banner">
+                        <h3>Bannière Jeux</h3>
+                        <button class="pixel-button" onclick="processDraw('Jeux', 1)">x1 (10 💎)</button>
+                        <button class="pixel-button" onclick="processDraw('Jeux', 11)" style="background:#ffd700; color:black;">x11 (100 💎)</button>
                     </div>
                 </div>
-                
-                <div id="draw-result" style="margin-top: 30px; min-height: 50px; font-size: 1.2rem; color: #00ff00;">
-                    </div>
             </section>
 
             <section id="view-deck" class="game-view">
-                <h1>COLLECTION DE CARTES</h1>
-                <p>Toutes vos cartes et leurs évolutions.</p>
-                <div id="deck-container">
-                    </div>
+                <div id="deck-container" class="deck-grid"></div>
             </section>
 
             <section id="view-shop" class="game-view">
-                <h1>BOUTIQUE DE SECONDE CHANCE</h1>
-                <p>Dépensez vos cristaux durement gagnés ici.</p>
-                <div class="banner-list">
-                    <div class="banner">
-                        <h3>Pack Mythique</h3>
-                        <p>Une carte rare garantie !</p>
-                        <button class="pixel-button" style="background: #533483;">Acheter (500 🔮)</button>
-                    </div>
-                </div>
+                <h2>Boutique de Seconde Chance</h2>
+                <p>Bientôt disponible...</p>
             </section>
-
         </main>
+    </div>
+
+    <div id="gacha-popup" class="modal">
+        <div class="modal-content">
+            <span class="close-popup" onclick="closeGachaPopup()">&times;</span>
+            <h2 id="popup-title">RÉSULTAT</h2>
+
+            <div id="roulette-zone" class="roulette-wrapper" style="display:none;">
+                <div id="roulette-line"></div>
+                <div id="roulette-track"></div>
+            </div>
+
+            <div id="chest-zone" style="display:none;">
+                <div id="chest-container">
+                    <img id="chest-sprite" src="img/close_chest_T1.png" onclick="handleChestClick()">
+                </div>
+                <p id="chest-instructions">Cliquez sur le coffre !</p>
+            </div>
+
+            <div id="single-result-info"></div>
+            <div id="popup-results-container"></div>
+            
+            <button id="btn-popup-close" class="pixel-button" onclick="closeGachaPopup()" style="display:none;">SUPER !</button>
+        </div>
     </div>
 
     <script src="script.js"></script>

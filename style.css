@@ -1,133 +1,98 @@
-/* --- CONFIGURATION GÉNÉRALE --- */
-body {
-    background-color: #1a1a2e;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    overflow: hidden; /* Empêche le scroll global car on gère le scroll dans #content */
-}
+/* --- BASE --- */
+body { background: #1a1a2e; color: white; font-family: sans-serif; margin: 0; overflow: hidden; }
 
-/* --- STATS BAR (TOP) --- */
 #main-stats {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background: #16213e;
-    height: 60px;
-    border-bottom: 3px solid #e94560;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    position: relative;
-    z-index: 100;
+    display: flex; justify-content: space-around; padding: 15px;
+    background: #16213e; border-bottom: 3px solid #e94560; position: relative; z-index: 100;
 }
 
-.stat {
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-/* --- LAYOUT (SIDEBAR + CONTENT) --- */
-#main-layout {
-    display: flex;
-    height: calc(100vh - 60px);
-}
+#main-layout { display: flex; height: calc(100vh - 60px); }
 
 #sidebar {
-    width: 220px;
-    background: rgba(15, 52, 96, 0.95);
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    border-right: 3px solid #e94560;
-    z-index: 50;
+    width: 220px; background: rgba(15, 52, 96, 0.95);
+    display: flex; flex-direction: column; padding: 20px; border-right: 3px solid #e94560; z-index: 50;
 }
 
-#content {
-    flex-grow: 1;
-    position: relative;
-    z-index: 10;
-    overflow-y: auto;
-    padding: 20px;
-}
+#content { flex-grow: 1; padding: 20px; overflow-y: auto; position: relative; z-index: 10; }
 
-/* --- BOUTONS PIXEL --- */
 .pixel-button {
-    background: #e94560;
-    color: white;
-    border: none;
-    padding: 15px;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 4px 4px 0px #533483;
-    transition: transform 0.1s;
+    background: #e94560; color: white; border: none; padding: 12px; margin-bottom: 10px;
+    font-weight: bold; cursor: pointer; box-shadow: 3px 3px 0 #533483;
 }
 
-.pixel-button:hover {
-    background: #ff4d6d;
-}
+/* --- RARETÉS --- */
+.rarity-universelle { border: 4px solid #fff !important; box-shadow: 0 0 20px #fff; animation: rainbow 2s infinite; }
+.rarity-mythique { border: 4px solid #ff00ff !important; box-shadow: 0 0 15px #ff00ff; }
+.rarity-légendaire { border: 4px solid #ff4500 !important; box-shadow: 0 0 15px #ff4500; }
+.rarity-épique { border: 4px solid #a335ee !important; }
+.rarity-rare { border: 4px solid #00d2ff !important; }
+.rarity-basique { border: 4px solid #ccc !important; }
 
-.pixel-button:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px #533483;
-}
+@keyframes rainbow { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
 
-/* --- PLUIE DE DOLLARS (FX) --- */
-#money-rain-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Clique à travers les billets */
-    z-index: 1; /* Derrière tout le reste */
-}
-
-.dollar-fx {
-    position: absolute;
-    width: 30px;
-    pointer-events: none;
-}
-
-@keyframes fall {
-    0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-}
-
-/* --- CARTES ET VUES --- */
-.game-view {
-    display: none; /* Caché par défaut */
-    animation: fadeIn 0.3s ease-in;
-}
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
+/* --- CARTES --- */
 .card {
-    width: 180px;
-    height: 260px;
-    background: linear-gradient(135deg, #222, #444);
-    border: 3px solid gold;
-    border-radius: 10px;
-    display: inline-block;
-    margin: 10px;
+    width: 180px; height: 250px; background: #222; border: 3px solid gold;
+    border-radius: 10px; display: inline-block; margin: 10px; text-align: center;
+    box-sizing: border-box; padding: 10px;
+}
+
+.card-anim { animation: cardPop 0.4s ease forwards; }
+@keyframes cardPop { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+
+/* --- POPUP & ROULETTE --- */
+.modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); }
+.modal-content { background: #16213e; margin: 50px auto; padding: 20px; border: 3px solid #e94560; width: 85%; max-width: 900px; text-align: center; border-radius: 15px; }
+
+.roulette-wrapper { position: relative; width: 100%; height: 280px; background: #050a14; border: 2px solid #e94560; overflow: hidden; margin: 20px 0; }
+#roulette-track { display: flex; position: absolute; left: 0; top: 15px; transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1); }
+#roulette-line { position: absolute; left: 50%; width: 4px; height: 100%; background: #0f0; z-index: 10; transform: translateX(-50%); }
+
+.card-roulette { min-width: 180px; margin: 0 10px; flex-shrink: 0; height: 240px; }
+
+/* --- COFFRE --- */
+#chest-sprite { width: 180px; cursor: pointer; }
+.shake { animation: shakeAnim 0.3s ease-in-out; }
+@keyframes shakeAnim {
+    0% { transform: rotate(0); }
+    25% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+    100% { transform: rotate(0); }
+}
+
+/* Container de résultats spécifique pour le x11 */
+#popup-results-container {
+    display: grid;
+    /* Crée 4 ou 5 colonnes selon la place, les cartes s'adaptent */
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    justify-items: center;
+    max-height: 60vh; /* Permet de scroller si l'écran est vraiment petit */
+    overflow-y: auto;
     padding: 10px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
-.rarity-légendaire { border-color: #ff4500; box-shadow: 0 0 15px #ff4500; }
-.rarity-rare { border-color: #00d2ff; }
-.rarity-épique { border-color: #a335ee; }
-.rarity-basique { border-color: #ccc; }
-
-.deck-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+/* Style des cartes réduites pour le x11 */
+.card-mini {
+    width: 110px !important;
+    height: 160px !important;
+    font-size: 0.7rem !important; /* Texte plus petit */
+    margin: 5px !important;
+    padding: 5px !important;
 }
 
-/* Bannières Gacha */
-.banner-list { display: flex; gap: 20px; justify-content: center; margin-top: 20px; }
-.banner { background: #0f3460; padding: 20px; border: 2px solid #e94560; border-radius: 15px; width: 250px; }
+/* On ajuste la taille des étoiles et des titres pour les mini cartes */
+.card-mini h4 {
+    font-size: 0.8rem;
+    margin: 5px 0;
+}
+
+.card-mini p {
+    margin: 2px 0;
+}
+
+/* --- FX --- */
+#money-rain-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+.dollar-fx { position: absolute; width: 30px; animation: fall linear forwards; }
+@keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); opacity:0; } 10% { opacity:1; } 100% { transform: translateY(105vh) rotate(360deg); opacity:0; } }
