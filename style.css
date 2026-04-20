@@ -1,37 +1,70 @@
-/* Palette de couleurs et styles de base */
+/* --- CONFIGURATION GÉNÉRALE --- */
 body {
     background-color: #1a1a2e;
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    overflow: hidden; /* Empêche le scroll global car on gère le scroll dans #content */
+}
+
+/* --- STATS BAR (TOP) --- */
+#main-stats {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    min-height: 100vh;
-}
-
-#game-container {
-    width: 90%;
-    max-width: 800px;
     background: #16213e;
-    border: 4px solid #0f3460;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    height: 60px;
+    border-bottom: 3px solid #e94560;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 100;
 }
 
-/* Style Pixel Art pour les boutons */
+.stat {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* --- LAYOUT (SIDEBAR + CONTENT) --- */
+#main-layout {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+#sidebar {
+    width: 220px;
+    background: rgba(15, 52, 96, 0.95);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-right: 3px solid #e94560;
+    z-index: 50;
+}
+
+#content {
+    flex-grow: 1;
+    position: relative;
+    z-index: 10;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* --- BOUTONS PIXEL --- */
 .pixel-button {
     background: #e94560;
     color: white;
     border: none;
-    padding: 15px 25px;
-    margin: 10px;
-    font-size: 1.1rem;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
     box-shadow: 4px 4px 0px #533483;
-    image-rendering: pixelated;
     transition: transform 0.1s;
+}
+
+.pixel-button:hover {
+    background: #ff4d6d;
 }
 
 .pixel-button:active {
@@ -39,56 +72,62 @@ body {
     box-shadow: 2px 2px 0px #533483;
 }
 
-#currency-bar, #power-display {
-    margin-bottom: 20px;
-    font-weight: bold;
-    font-size: 1.2rem;
+/* --- PLUIE DE DOLLARS (FX) --- */
+#money-rain-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Clique à travers les billets */
+    z-index: 1; /* Derrière tout le reste */
 }
 
-/* Style des Cartes HD */
+.dollar-fx {
+    position: absolute;
+    width: 30px;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* --- CARTES ET VUES --- */
+.game-view {
+    display: none; /* Caché par défaut */
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 .card {
-    width: 200px;
-    height: 300px;
+    width: 180px;
+    height: 260px;
     background: linear-gradient(135deg, #222, #444);
+    border: 3px solid gold;
     border-radius: 10px;
-    border: 2px solid gold;
     display: inline-block;
     margin: 10px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-.card-inner {
     padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
-.rarity-legendaire { border-color: #ff4500; box-shadow: 0 0 15px #ff4500; }
+.rarity-légendaire { border-color: #ff4500; box-shadow: 0 0 15px #ff4500; }
 .rarity-rare { border-color: #00d2ff; }
+.rarity-épique { border-color: #a335ee; }
 .rarity-basique { border-color: #ccc; }
 
-.card-name { font-weight: bold; margin-bottom: 5px; }
-.card-type { font-size: 0.8rem; color: #aaa; }
-.card-power { font-size: 1.2rem; color: #00ff00; margin-top: 10px; }
-
-
-.card-stars {
-    color: #ffd700;
-    font-size: 1.2rem;
-    margin: 5px 0;
-    text-shadow: 1px 1px 2px black;
-}
-
 .deck-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* On réduit un peu la taille des cartes dans le deck pour que ça rentre */
-.deck-grid .card {
-    width: 140px;
-    height: 200px;
-    font-size: 0.8rem;
-}
+/* Bannières Gacha */
+.banner-list { display: flex; gap: 20px; justify-content: center; margin-top: 20px; }
+.banner { background: #0f3460; padding: 20px; border: 2px solid #e94560; border-radius: 15px; width: 250px; }
