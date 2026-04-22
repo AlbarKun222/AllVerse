@@ -32,9 +32,21 @@ body { background: #1a1a2e; color: white; font-family: sans-serif; margin: 0; ov
 
 /* --- CARTES --- */
 .card {
-    width: 180px; height: 250px; background: #222; border: 3px solid gold;
-    border-radius: 10px; display: inline-block; margin: 10px; text-align: center;
-    box-sizing: border-box; padding: 10px;
+    width: 180px;
+    height: 260px;
+    background: #222;
+    border: 3px solid gold;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 10px;
+    padding: 15px;
+    text-align: center;
+    box-sizing: border-box;
+    
+    /* --- AJOUTE CETTE LIGNE --- */
+    vertical-align: top; 
+    
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 .card-anim { animation: cardPop 0.4s ease forwards; }
@@ -96,3 +108,42 @@ body { background: #1a1a2e; color: white; font-family: sans-serif; margin: 0; ov
 #money-rain-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
 .dollar-fx { position: absolute; width: 30px; animation: fall linear forwards; }
 @keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); opacity:0; } 10% { opacity:1; } 100% { transform: translateY(105vh) rotate(360deg); opacity:0; } }
+
+.deck-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start; /* Aligne tout en haut du flex */
+}
+
+/* --- AURAS ET EFFETS SPÉCIAUX --- */
+
+/* Aura Mythique (Violette) */
+.rarity-mythique {
+    box-shadow: 0 0 20px #ff00ff, inset 0 0 10px #ff00ff !important;
+}
+
+/* Aura Universelle (Arc-en-ciel + Brillance) */
+.rarity-universelle {
+    box-shadow: 0 0 25px #fff, inset 0 0 15px #fff !important;
+    animation: rainbow 2s infinite, glow 1.5s ease-in-out infinite alternate !important;
+}
+
+/* Animation de pulsation pour l'aura universelle */
+@keyframes glow {
+    from { box-shadow: 0 0 10px #fff; }
+    to { box-shadow: 0 0 30px #fff, 0 0 40px #00d2ff; }
+}
+
+/* Animation de tremblement pour le x11 */
+.card-rare-shake {
+    animation: cardShake 0.5s infinite ease-in-out;
+}
+
+@keyframes cardShake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(2deg); }
+    50% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+}

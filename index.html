@@ -46,9 +46,17 @@
                 </div>
             </section>
 
-            <section id="view-deck" class="game-view">
-                <div id="deck-container" class="deck-grid"></div>
-            </section>
+            <section id="view-deck" class="game-view" style="display:none;">
+                    <h1>MA COLLECTION</h1>
+                    
+                    <div class="deck-controls" style="background: rgba(15, 52, 96, 0.8); padding: 10px; margin-bottom: 20px; border-radius: 8px;">
+                        <button class="pixel-button" onclick="setSort('rarity')">Rareté</button>
+                        <button class="pixel-button" onclick="setSort('power')">Puissance</button>
+                        <button class="pixel-button" onclick="setSort('stars')">Étoiles</button>
+                    </div>
+
+                    <div id="deck-container" class="deck-grid"></div>
+                </section>
 
             <section id="view-shop" class="game-view">
                 <h2>Boutique de Seconde Chance</h2>
