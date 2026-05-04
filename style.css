@@ -147,3 +147,34 @@ body { background: #1a1a2e; color: white; font-family: sans-serif; margin: 0; ov
     75% { transform: rotate(2deg); }
     100% { transform: rotate(0deg); }
 }
+
+/* --- PARTICULES D'OUVERTURE AMÉLIORÉES --- */
+.particle {
+    position: absolute;
+    width: 10px; /* Un peu plus grand */
+    height: 10px;
+    border-radius: 2px; /* Forme de confetti/pixel */
+    pointer-events: none;
+    z-index: 210;
+    /* Ajout d'un éclat lumineux autour de la particule */
+    box-shadow: 0 0 10px currentColor; 
+    animation: explode 1s cubic-bezier(0.1, 0.9, 0.3, 1) forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        /* Propulsion vers les variables dx/dy avec une rotation finale */
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* On s'assure que le container du coffre permet le positionnement absolu des particules */
+#chest-container {
+    position: relative;
+    display: inline-block;
+}

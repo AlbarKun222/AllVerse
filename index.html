@@ -46,17 +46,23 @@
                 </div>
             </section>
 
-            <section id="view-deck" class="game-view" style="display:none;">
-                    <h1>MA COLLECTION</h1>
-                    
-                    <div class="deck-controls" style="background: rgba(15, 52, 96, 0.8); padding: 10px; margin-bottom: 20px; border-radius: 8px;">
-                        <button class="pixel-button" onclick="setSort('rarity')">Rareté</button>
-                        <button class="pixel-button" onclick="setSort('power')">Puissance</button>
-                        <button class="pixel-button" onclick="setSort('stars')">Étoiles</button>
+            <section id="view-deck" class="game-view">
+                <h1>MA COLLECTION</h1>
+                
+                <div style="background: rgba(15, 52, 96, 0.8); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e94560;">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                        <span style="font-weight: bold; font-size: 0.9rem;">AFFICHAGE :</span>
+                        <button id="btn-switch-mode" class="pixel-button" style="background: #4ecca3; color: #1a1a2e;" onclick="toggleDisplayMode()">MODE : VRAC</button>
+                        
+                        <span style="margin-left: 10px; font-weight: bold; font-size: 0.9rem;">TRIER PAR :</span>
+                        <button class="pixel-button" onclick="setSort('rarity')">RARETÉ</button>
+                        <button class="pixel-button" onclick="setSort('power')">PUISSANCE</button>
+                        <button class="pixel-button" onclick="setSort('stars')">ÉTOILES</button>
                     </div>
+                </div>
 
-                    <div id="deck-container" class="deck-grid"></div>
-                </section>
+                <div id="deck-container" class="deck-grid"></div>
+            </section>
 
             <section id="view-shop" class="game-view">
                 <h2>Boutique de Seconde Chance</h2>

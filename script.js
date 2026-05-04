@@ -1,36 +1,36 @@
-// --- BASE DE DONNÉES DES CARTES ---
+// --- BASE DE DONNÉES AVEC POIDS ÉQUILIBRÉS ---
 const cardsDatabase = [
-    // --- BANNIÈRE ANIME (10) ---
-    { id: "goku", name: "Goku", rarity: "Légendaire", type: "Personnage", basePower: 2000, banner: "Anime" },
-    { id: "naruto", name: "Naruto", rarity: "Épique", type: "Personnage", basePower: 1200, banner: "Anime" },
-    { id: "luffy", name: "Luffy", rarity: "Épique", type: "Personnage", basePower: 1250, banner: "Anime" },
-    { id: "saitama", name: "Saitama", rarity: "Universelle", type: "Personnage", basePower: 5000, banner: "Anime" }, // T4 - Arc-en-ciel
-    { id: "tanjiro", name: "Tanjiro", rarity: "Rare", type: "Personnage", basePower: 600, banner: "Anime" },
-    { id: "deku", name: "Deku", rarity: "Rare", type: "Personnage", basePower: 550, banner: "Anime" },
-    { id: "kurapika", name: "Kurapika", rarity: "Atypique", type: "Personnage", basePower: 300, banner: "Anime" },
-    { id: "sakura", name: "Sakura", rarity: "Basique", type: "Personnage", basePower: 100, banner: "Anime" },
-    { id: "gojo", name: "Gojo Satoru", rarity: "Mythique", type: "Personnage", basePower: 3500, banner: "Anime" }, // T4 - Rose/Violet
-    { id: "eren", name: "Eren Jäger", rarity: "Légendaire", type: "Personnage", basePower: 1900, banner: "Anime" },
+    { id: "goku", name: "Goku", rarity: "Légendaire", basePower: 2000, banner: "Anime", weight: 3 },
+    { id: "naruto", name: "Naruto", rarity: "Épique", basePower: 1200, banner: "Anime", weight: 12 },
+    { id: "luffy", name: "Luffy", rarity: "Épique", basePower: 1250, banner: "Anime", weight: 12 },
+    { id: "saitama", name: "Saitama", rarity: "Universelle", basePower: 5000, banner: "Anime", weight: 0.2 },
+    { id: "tanjiro", name: "Tanjiro", rarity: "Rare", basePower: 600, banner: "Anime", weight: 35 },
+    { id: "deku", name: "Deku", rarity: "Rare", basePower: 550, banner: "Anime", weight: 35 },
+    { id: "kurapika", name: "Kurapika", rarity: "Atypique", basePower: 300, banner: "Anime", weight: 80 },
+    { id: "sakura", name: "Sakura", rarity: "Basique", basePower: 100, banner: "Anime", weight: 150 },
+    { id: "gojo", name: "Gojo Satoru", rarity: "Mythique", basePower: 3500, banner: "Anime", weight: 0.8 },
+    { id: "eren", name: "Eren Jäger", rarity: "Légendaire", basePower: 1900, banner: "Anime", weight: 3 },
 
-    // --- BANNIÈRE JEUX (10) ---
-    { id: "mario", name: "Mario", rarity: "Rare", type: "Personnage", basePower: 500, banner: "Jeux" },
-    { id: "link", name: "Link", rarity: "Légendaire", type: "Personnage", basePower: 1800, banner: "Jeux" },
-    { id: "kratos", name: "Kratos", rarity: "Mythique", type: "Personnage", basePower: 3800, banner: "Jeux" }, // T4
-    { id: "master_chief", name: "Master Chief", rarity: "Épique", type: "Personnage", basePower: 1300, banner: "Jeux" },
-    { id: "pikachu", name: "Pikachu", rarity: "Rare", type: "Personnage", basePower: 450, banner: "Jeux" },
-    { id: "steve", name: "Steve", rarity: "Basique", type: "Personnage", basePower: 120, banner: "Jeux" },
-    { id: "sans", name: "Sans", rarity: "Atypique", type: "Personnage", basePower: 1, banner: "Jeux" }, // Clin d'oeil 1 PV
-    { id: "arthas", name: "Lich King", rarity: "Mythique", type: "Personnage", basePower: 3600, banner: "Jeux" }, // T4
-    { id: "lara_croft", name: "Lara Croft", rarity: "Épique", type: "Personnage", basePower: 1100, banner: "Jeux" },
-    { id: "kirby", name: "Kirby", rarity: "Universelle", type: "Personnage", basePower: 4500, banner: "Jeux" } // T4
+    { id: "mario", name: "Mario", rarity: "Rare", basePower: 500, banner: "Jeux", weight: 35 },
+    { id: "link", name: "Link", rarity: "Légendaire", basePower: 1800, banner: "Jeux", weight: 3 },
+    { id: "kratos", name: "Kratos", rarity: "Mythique", basePower: 3800, banner: "Jeux", weight: 0.8 },
+    { id: "master_chief", name: "Master Chief", rarity: "Épique", basePower: 1300, banner: "Jeux", weight: 12 },
+    { id: "pikachu", name: "Pikachu", rarity: "Rare", basePower: 450, banner: "Jeux", weight: 35 },
+    { id: "steve", name: "Steve", rarity: "Basique", basePower: 120, banner: "Jeux", weight: 150 },
+    { id: "sans", name: "Sans", rarity: "Atypique", basePower: 1, banner: "Jeux", weight: 80 },
+    { id: "arthas", name: "Lich King", rarity: "Mythique", basePower: 3600, banner: "Jeux", weight: 0.8 },
+    { id: "lara_croft", name: "Lara Croft", rarity: "Épique", basePower: 1100, banner: "Jeux", weight: 12 },
+    { id: "kirby", name: "Kirby", rarity: "Universelle", basePower: 4500, banner: "Jeux", weight: 0.2 }
 ];
 
-// --- SYSTÈME DE RARETÉ (SCORES POUR LES TIERS) ---
 const rarityScores = {
-    "basique": 1, "atypique": 1,
-    "rare": 2, "magique": 2,
-    "épique": 3, "légendaire": 3,
-    "mythique": 4, "universelle": 4
+    "basique": 1,
+    "atypique": 2, // Augmenté pour être au-dessus de Basique
+    "rare": 3,
+    "épique": 4,
+    "légendaire": 5,
+    "mythique": 6,
+    "universelle": 7 // Score le plus haut
 };
 
 // --- VARIABLES D'ÉTAT ---
@@ -38,24 +38,40 @@ let userGems = 1000;
 let userCristaux = 0;
 let userDeck = {};
 let totalPower = 0;
+let currentSort = 'rarity';
+let isGroupedByBanner = false;
 
-// Variables pour le x11
 let chestClicks = 0;
 let currentX11Results = [];
 let maxTierForThisDraw = 1;
+
+// --- LOGIQUE DE TIRAGE ---
+function getRandomCard(bannerName) {
+    const available = cardsDatabase.filter(c => c.banner === bannerName);
+    const totalWeight = available.reduce((sum, card) => sum + card.weight, 0);
+    let random = Math.random() * totalWeight;
+    for (const card of available) {
+        if (random < card.weight) return card;
+        random -= card.weight;
+    }
+    return available[0];
+}
 
 // --- NAVIGATION ---
 function switchView(viewId) {
     document.querySelectorAll('.game-view').forEach(v => v.style.display = 'none');
     document.getElementById(viewId).style.display = 'block';
-    
-    // C'est cette ligne qui remplit le deck au moment où on clique sur le bouton
-    if (viewId === 'view-deck') {
-        renderDeck();
-    }
+    if (viewId === 'view-deck') renderDeck();
 }
 
-// --- LOGIQUE GÉNÉRALE DE TIRAGE ---
+function updateUI() {
+    totalPower = Object.values(userDeck).reduce((sum, card) => sum + card.currentPower, 0);
+    document.getElementById('gems-count').innerText = userGems;
+    document.getElementById('cristaux-count').innerText = userCristaux;
+    document.getElementById('total-power').innerText = totalPower;
+}
+
+// --- GACHA CORE ---
 function processDraw(bannerName, count) {
     const cost = (count === 11) ? 100 : 10;
     if (userGems < cost) return alert("Pas assez de Gems ! 💎");
@@ -63,12 +79,10 @@ function processDraw(bannerName, count) {
     userGems -= cost;
     updateUI();
 
-    // Reset Popup
-    const popup = document.getElementById('gacha-popup');
-    popup.style.display = 'block';
+    document.getElementById('gacha-popup').style.display = 'block';
     document.getElementById('btn-popup-close').style.display = 'none';
     document.getElementById('popup-results-container').innerHTML = "";
-    document.getElementById('single-result-info').innerText = "";
+    document.getElementById('single-result-info').innerHTML = ""; // Reset correctif[cite: 2]
 
     if (count === 1) {
         document.getElementById('roulette-zone').style.display = "block";
@@ -81,21 +95,15 @@ function processDraw(bannerName, count) {
     }
 }
 
-// --- LOGIQUE ROULETTE (x1) ---
 function runRoulette(bannerName) {
     const track = document.getElementById('roulette-track');
-    const available = cardsDatabase.filter(c => c.banner === bannerName);
-    const winner = available[Math.floor(Math.random() * available.length)];
-    
+    const winner = getRandomCard(bannerName);
     track.style.transition = "none";
     track.style.transform = "translateX(0px)";
     track.innerHTML = "";
 
-    const winnerIndex = 30;
-    const cardTotalWidth = 200; // 180px + 10px margin * 2
-
     for (let i = 0; i < 40; i++) {
-        const card = (i === winnerIndex) ? winner : cardsDatabase[Math.floor(Math.random() * cardsDatabase.length)];
+        const card = (i === 30) ? winner : cardsDatabase[Math.floor(Math.random() * cardsDatabase.length)];
         const el = document.createElement('div');
         el.className = `card card-roulette rarity-${card.rarity.toLowerCase()}`;
         el.innerHTML = `<h4>${card.name}</h4><small>${card.rarity}</small>`;
@@ -104,9 +112,9 @@ function runRoulette(bannerName) {
 
     setTimeout(() => {
         const wrapperWidth = document.querySelector('.roulette-wrapper').offsetWidth;
-        const targetX = (wrapperWidth / 2) - (winnerIndex * cardTotalWidth) - (cardTotalWidth / 2);
+        const targetX = (wrapperWidth / 2) - (30 * 200) - 100;
         track.style.transition = "transform 4s cubic-bezier(0.1, 0, 0.1, 1)";
-        track.style.transform = `translateX(${Math.floor(targetX)}px)`;
+        track.style.transform = `translateX(${targetX}px)`;
     }, 50);
 
     setTimeout(() => {
@@ -116,86 +124,141 @@ function runRoulette(bannerName) {
     }, 4100);
 }
 
-// --- LOGIQUE COFFRE (x11) ---
 function prepareX11(bannerName) {
     chestClicks = 0;
     currentX11Results = [];
-    maxTierForThisDraw = 1; // On reset le tier au plus bas (T1)
-
-    // Reset visuel du coffre
+    maxTierForThisDraw = 1;
     document.getElementById('chest-sprite').src = "img/close_chest_T1.png";
-    document.getElementById('chest-instructions').innerText = "Cliquez 3 fois pour ouvrir !";
+    document.getElementById('chest-instructions').innerText = "Cliquez 3 fois !";
 
-    const available = cardsDatabase.filter(c => c.banner === bannerName);
-    
     for (let i = 0; i < 11; i++) {
-        const card = available[Math.floor(Math.random() * available.length)];
+        const card = getRandomCard(bannerName);
         currentX11Results.push(card);
-        
-        // Calcul du Tier max du tirage
         const score = rarityScores[card.rarity.toLowerCase()] || 1;
-        if (score > maxTierForThisDraw) {
-            maxTierForThisDraw = score;
-        }
+        // Nouvelle logique de seuil de coffre[cite: 2]
+        if (score >= 4) maxTierForThisDraw = 4;
+        else if (score === 3 && maxTierForThisDraw < 4) maxTierForThisDraw = 3;
+        else if (score === 2 && maxTierForThisDraw < 3) maxTierForThisDraw = 2;
     }
 }
 
 function handleChestClick() {
     if (chestClicks >= 3) return;
-    
     chestClicks++;
     const sprite = document.getElementById('chest-sprite');
-    
-    // Animation de tremblement
     sprite.classList.remove('shake');
-    void sprite.offsetWidth; // Reset animation
+    void sprite.offsetWidth;
     sprite.classList.add('shake');
 
     if (chestClicks < 3) {
-        // Clic 1 et 2 : Random pour le suspense
-        const randomFakeTier = Math.floor(Math.random() * 4) + 1;
-        sprite.src = `img/close_chest_T${randomFakeTier}.png`;
+        sprite.src = `img/close_chest_T${Math.floor(Math.random() * 4) + 1}.png`;
     } else {
-        // Clic 3 : On affiche le vrai Tier final
         sprite.src = `img/open_chest_T${maxTierForThisDraw}.png`;
-        document.getElementById('chest-instructions').innerText = "INCROYABLE !";
+        createParticles(maxTierForThisDraw);
         setTimeout(showX11Results, 600);
+    }
+}
+
+function createParticles(tier) {
+    const container = document.getElementById('chest-container');
+    const colors = { 1: "#00ff00", 2: "#00d2ff", 3: "#ffd700", 4: "#ff0000" };
+    const color = colors[tier] || "#ffffff";
+    for (let i = 0; i < 60; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.backgroundColor = color;
+        p.style.color = color;
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 100 + Math.random() * 250;
+        p.style.setProperty('--dx', Math.cos(angle) * velocity + "px");
+        p.style.setProperty('--dy', Math.sin(angle) * velocity + "px");
+        p.style.left = "50%"; p.style.top = "50%";
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 1000);
     }
 }
 
 function showX11Results() {
     const container = document.getElementById('popup-results-container');
     container.innerHTML = "";
-
     currentX11Results.forEach((card, i) => {
         applyCardResult(card);
-        
-        const el = document.createElement('div');
-        
-        // Détection de la rareté pour le tremblement (Mythique ou Universelle)
         const score = rarityScores[card.rarity.toLowerCase()] || 1;
         const shakeClass = (score >= 4) ? "card-rare-shake" : "";
-        
-        // On ajoute la classe de rareté, la classe mini, l'animation d'apparition et le tremblement si besoin
+        const el = document.createElement('div');
         el.className = `card card-mini rarity-${card.rarity.toLowerCase()} card-anim ${shakeClass}`;
         el.style.animationDelay = `${i * 0.05}s`;
-        
-        const stars = userDeck[card.id].stars;
-        
-        el.innerHTML = `
-            <h4>${card.name}</h4>
-            <div style="color:gold; font-size:0.6rem;">${"⭐".repeat(stars) || "NEW"}</div>
-            <p style="font-weight:bold;">Pwr: ${card.basePower}</p>
-        `;
-        
+        el.innerHTML = `<h4>${card.name}</h4><div style="color:gold; font-size:0.6rem;">${"⭐".repeat(userDeck[card.id].stars) || "NEW"}</div><p>Pwr: ${card.basePower}</p>`;
         container.appendChild(el);
     });
-    
     document.getElementById('btn-popup-close').style.display = "inline-block";
     updateUI();
 }
 
-// --- CŒUR DU JEU (LOGIQUE & UI) ---
+// --- DECK & TRI ---
+function toggleDisplayMode() {
+    isGroupedByBanner = !isGroupedByBanner;
+    const btn = document.getElementById('btn-switch-mode');
+    btn.innerText = isGroupedByBanner ? "MODE : BANNIÈRES" : "MODE : VRAC";
+    btn.style.background = isGroupedByBanner ? "#e94560" : "#4ecca3";
+    renderDeck();
+}
+
+function setSort(type) {
+    currentSort = type;
+    renderDeck();
+}
+
+function renderDeck() {
+    const container = document.getElementById('deck-container');
+    if (!container) return;
+    container.innerHTML = "";
+    let deckArray = Object.values(userDeck);
+
+    deckArray.sort((a, b) => {
+        if (currentSort === 'power') {
+            return b.currentPower - a.currentPower;
+        } 
+        if (currentSort === 'stars') {
+            return b.stars - a.stars;
+        }
+        if (currentSort === 'rarity') {
+            // On récupère le score ou 0 si la rareté est inconnue
+            const scoreA = rarityScores[a.rarity.toLowerCase()] || 0;
+            const scoreB = rarityScores[b.rarity.toLowerCase()] || 0;
+            
+            // Si les raretés sont identiques, on trie par puissance à l'intérieur de la rareté
+            if (scoreB === scoreA) {
+                return b.currentPower - a.currentPower;
+            }
+            return scoreB - scoreA;
+        }
+        return 0;
+    });
+
+    if (!isGroupedByBanner) {
+        deckArray.forEach(card => container.appendChild(createCardHTML(card)));
+    } else {
+        ["Anime", "Jeux"].forEach(banner => {
+            const filtered = deckArray.filter(c => c.banner === banner);
+            if (filtered.length > 0) {
+                const h2 = document.createElement('h2');
+                h2.style.width = "100%"; h2.style.color = "gold"; h2.style.borderBottom = "2px solid #e94560";
+                h2.innerText = banner.toUpperCase();
+                container.appendChild(h2);
+                filtered.forEach(card => container.appendChild(createCardHTML(card)));
+            }
+        });
+    }
+}
+
+function createCardHTML(card) {
+    const div = document.createElement('div');
+    div.className = `card rarity-${card.rarity.toLowerCase()}`;
+    div.innerHTML = `<h4>${card.name}</h4><div style="color:gold">${"⭐".repeat(card.stars)}</div><p>Pwr: ${card.currentPower}</p><small>${card.rarity}</small>`;
+    return div;
+}
+
 function applyCardResult(template) {
     if (userDeck[template.id]) {
         let card = userDeck[template.id];
@@ -203,94 +266,31 @@ function applyCardResult(template) {
             card.stars++;
             card.currentPower = Math.floor(template.basePower * (1 + (card.stars * 0.25)));
         } else {
-            userCristaux += 50; // Bonus doublon max
+            userCristaux += 50;
         }
     } else {
         userDeck[template.id] = { ...template, stars: 0, currentPower: template.basePower };
     }
 }
 
-function updateUI() {
-    totalPower = Object.values(userDeck).reduce((sum, card) => sum + card.currentPower, 0);
-    document.getElementById('gems-count').innerText = userGems;
-    document.getElementById('cristaux-count').innerText = userCristaux;
-    document.getElementById('total-power').innerText = totalPower;
-}
-
-let currentSort = 'rarity'; // Tri par défaut à l'ouverture
-
-function setSort(type) {
-    currentSort = type;
-    renderDeck(); // Relance le rendu avec le nouveau tri
-}
-
-function renderDeck() {
-    const container = document.getElementById('deck-container');
-    if (!container) return; // Sécurité si l'élément n'existe pas
-    
-    container.innerHTML = "";
-    
-    // On convertit l'objet en tableau pour pouvoir utiliser .sort()
-    let deckArray = Object.values(userDeck);
-
-    // --- LOGIQUE DE TRI ---
-    deckArray.sort((a, b) => {
-        if (currentSort === 'power') {
-            return b.currentPower - a.currentPower; // Plus gros Power en haut
-        } else if (currentSort === 'stars') {
-            return b.stars - a.stars; // Plus d'étoiles en haut
-        } else if (currentSort === 'rarity') {
-            // On compare les scores numériques définis dans rarityScores
-            const scoreA = rarityScores[a.rarity.toLowerCase()] || 0;
-            const scoreB = rarityScores[b.rarity.toLowerCase()] || 0;
-            return scoreB - scoreA; // Plus rare en haut
-        }
-        return 0;
-    });
-
-    // --- AFFICHAGE ---
-    deckArray.forEach(card => {
-        container.innerHTML += `
-            <div class="card rarity-${card.rarity.toLowerCase()}">
-                <h4>${card.name}</h4>
-                <div style="color:gold">${"⭐".repeat(card.stars)}</div>
-                <p>Pwr: ${card.currentPower}</p>
-                <small>${card.rarity}</small>
-            </div>
-        `;
-    });
-}
-
-// --- PLUIE DE DOLLARS ---
+// --- INIT ---
 function createDollar() {
     const container = document.getElementById('money-rain-container');
     if (!container) return;
-    
     const dollar = document.createElement('img');
     dollar.src = 'dollar.png';
     dollar.className = 'dollar-fx';
     dollar.style.left = Math.random() * 95 + "vw";
-    
     const duration = 3 + Math.random() * 4;
     dollar.style.animationDuration = duration + "s";
-    
     container.appendChild(dollar);
     setTimeout(() => dollar.remove(), duration * 1000);
 }
 
 function moneyLoop() {
-    let delay = Math.max(100, 2000 - (totalPower / 5));
     createDollar();
-    setTimeout(moneyLoop, delay);
+    setTimeout(moneyLoop, Math.max(100, 2000 - (totalPower / 5)));
 }
 
-// --- INIT ---
-window.onload = () => {
-    switchView('view-hub');
-    updateUI();
-    moneyLoop();
-};
-
-function closeGachaPopup() {
-    document.getElementById('gacha-popup').style.display = 'none';
-}
+window.onload = () => { switchView('view-hub'); updateUI(); moneyLoop(); };
+function closeGachaPopup() { document.getElementById('gacha-popup').style.display = 'none'; }
