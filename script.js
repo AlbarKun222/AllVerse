@@ -519,7 +519,7 @@ function spinWheel() {
         document.getElementById('popup-results-container').style.display = 'flex';
         document.getElementById('btn-popup-close').style.display = 'inline-block';
         
-        localStorage.setItem('last_claim_' + currentWheelType, Date.now());[cite: 1]
+        localStorage.setItem('last_claim_' + currentWheelType, Date.now());
         updateTimers(); 
     }, 4000);
 }
