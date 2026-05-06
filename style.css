@@ -178,3 +178,76 @@ body { background: #1a1a2e; color: white; font-family: sans-serif; margin: 0; ov
     position: relative;
     display: inline-block;
 }
+
+/* --- BANNIÈRES ET SÉPARATEURS --- */
+.hud-separator {
+    text-align: center;
+    margin: 20px 0 10px 0;
+}
+
+.hud-separator img {
+    max-width: 300px;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    overflow: hidden; /* Important pour masquer le débordement vidéo */
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #533483;
+}
+
+.event-border {
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.banner-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    /* C'est ici que la magie opère */
+    object-fit: cover; 
+    object-position: center 75%; /* Ajuste le % pour monter/descendre la vidéo */
+}
+.banner-content {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.4); /* Filtre légèrement assombri */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    /* MODIFICATIONS ICI */
+    justify-content: flex-end; /* Pousse tout le contenu vers le bas */
+    align-items: center;
+    padding-bottom: 20px;      /* Espace entre les boutons et le bas de la bannière */
+    box-sizing: border-box;    /* Assure que le padding ne déforme pas la bannière */
+}
+
+.event-title {
+    color: #ffd700;
+    text-shadow: 2px 2px 4px #000;
+    margin-bottom: 10px;       /* Espace entre le titre et les boutons */
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Ajustement optionnel pour que les boutons ne soient pas trop larges sur une seule ligne */
+.button-group .pixel-button {
+    min-width: 120px;
+    margin-bottom: 0;   /* On enlève la marge du bas puisqu'ils sont côte à côte */
+}

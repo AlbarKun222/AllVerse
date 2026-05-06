@@ -29,20 +29,53 @@
             <section id="view-hub" class="game-view">
                 <h1>BIENVENUE</h1>
                 <p>Augmentez votre puissance pour débloquer plus de récompenses !</p>
+
+                <!-- Popup Roue de la Fortune -->
+                <div id="fortune-popup" class="gacha-popup" style="display:none;">
+                    <div class="popup-content">
+                        <h2>Roue de la Fortune</h2>
+                        <div class="wheel-container">
+                            <canvas id="wheelCanvas" width="300" height="300"></canvas>
+                            <div class="wheel-pointer">▼</div>
+                        </div>
+                        <button id="btn-spin" class="pixel-button" onclick="spinWheel()">TOURNER !</button>
+                        <button class="pixel-button" onclick="closeFortune()">Fermer</button>
+                    </div>
+                </div>
             </section>
 
             <section id="view-gacha" class="game-view">
                 <div class="banner-list">
-                    <div class="banner">
-                        <h3>Bannière Animé</h3>
-                        <button class="pixel-button" onclick="processDraw('Anime', 1)">x1 (10 💎)</button>
-                        <button class="pixel-button" onclick="processDraw('Anime', 11)" style="background:#ffd700; color:black;">x11 (100 💎)</button>
+                    
+                    <!-- SECTION ÉVÈNEMENT -->
+                    <div class="hud-separator">
+                        <img src="img/hud_temporary_tirage.png" alt="Events">
                     </div>
-                    <div class="banner">
-                        <h3>Bannière Jeux</h3>
-                        <button class="pixel-button" onclick="processDraw('Jeux', 1)">x1 (10 💎)</button>
-                        <button class="pixel-button" onclick="processDraw('Jeux', 11)" style="background:#ffd700; color:black;">x11 (100 💎)</button>
+
+                    <div class="banner event-border" style="background-image: url('img/banner_minecraft.jpg');">
+                        <video autoplay muted loop playsinline class="banner-video">
+                            <source src="img/banner_minecraft_vid.webm" type="video/webm">
+                        </video>
+                        <div class="banner-content">
+                            <h3 class="event-title">ÉVÈNEMENT : MINECRAFT</h3>
+                            <button class="pixel-button" onclick="processDraw('Minecraft', 1)">x1 (10 💎)</button>
+                            <button class="pixel-button" onclick="processDraw('Minecraft', 11)" style="background:#ffd700; color:black;">x11 (100 💎)</button>
+                        </div>
                     </div>
+
+                    <!-- SECTION PERMANENTE -->
+                    <div class="hud-separator" style="margin-top: 30px;">
+                        <img src="img/hud_permanent_tirage.png" alt="Permanents">
+                    </div>
+
+                    <div class="banner" style="background-image: url('img/banner_anime.jpg');">
+                        <div class="banner-content">
+                            <h3>Bannière Classique</h3>
+                            <button class="pixel-button" onclick="processDraw('Anime', 1)">x1 (10 💎)</button>
+                            <button class="pixel-button" onclick="processDraw('Anime', 11)" style="background:#ffd700; color:black;">x11 (100 💎)</button>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
@@ -95,6 +128,10 @@
         </div>
     </div>
 
+    <!-- On charge d'abord la base de données -->
+    <script src="card_base.js"></script>
+    
+    <!-- Puis on charge la logique du jeu -->
     <script src="script.js"></script>
 </body>
 </html>

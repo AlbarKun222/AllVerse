@@ -1,28 +1,3 @@
-// --- BASE DE DONNÉES AVEC POIDS ÉQUILIBRÉS ---
-const cardsDatabase = [
-    { id: "goku", name: "Goku", rarity: "Légendaire", basePower: 2000, banner: "Anime", weight: 3 },
-    { id: "naruto", name: "Naruto", rarity: "Épique", basePower: 1200, banner: "Anime", weight: 12 },
-    { id: "luffy", name: "Luffy", rarity: "Épique", basePower: 1250, banner: "Anime", weight: 12 },
-    { id: "saitama", name: "Saitama", rarity: "Universelle", basePower: 5000, banner: "Anime", weight: 0.2 },
-    { id: "tanjiro", name: "Tanjiro", rarity: "Rare", basePower: 600, banner: "Anime", weight: 35 },
-    { id: "deku", name: "Deku", rarity: "Rare", basePower: 550, banner: "Anime", weight: 35 },
-    { id: "kurapika", name: "Kurapika", rarity: "Atypique", basePower: 300, banner: "Anime", weight: 80 },
-    { id: "sakura", name: "Sakura", rarity: "Basique", basePower: 100, banner: "Anime", weight: 150 },
-    { id: "gojo", name: "Gojo Satoru", rarity: "Mythique", basePower: 3500, banner: "Anime", weight: 0.8 },
-    { id: "eren", name: "Eren Jäger", rarity: "Légendaire", basePower: 1900, banner: "Anime", weight: 3 },
-
-    { id: "mario", name: "Mario", rarity: "Rare", basePower: 500, banner: "Jeux", weight: 35 },
-    { id: "link", name: "Link", rarity: "Légendaire", basePower: 1800, banner: "Jeux", weight: 3 },
-    { id: "kratos", name: "Kratos", rarity: "Mythique", basePower: 3800, banner: "Jeux", weight: 0.8 },
-    { id: "master_chief", name: "Master Chief", rarity: "Épique", basePower: 1300, banner: "Jeux", weight: 12 },
-    { id: "pikachu", name: "Pikachu", rarity: "Rare", basePower: 450, banner: "Jeux", weight: 35 },
-    { id: "steve", name: "Steve", rarity: "Basique", basePower: 120, banner: "Jeux", weight: 150 },
-    { id: "sans", name: "Sans", rarity: "Atypique", basePower: 1, banner: "Jeux", weight: 80 },
-    { id: "arthas", name: "Lich King", rarity: "Mythique", basePower: 3600, banner: "Jeux", weight: 0.8 },
-    { id: "lara_croft", name: "Lara Croft", rarity: "Épique", basePower: 1100, banner: "Jeux", weight: 12 },
-    { id: "kirby", name: "Kirby", rarity: "Universelle", basePower: 4500, banner: "Jeux", weight: 0.2 }
-];
-
 const rarityScores = {
     "basique": 1,
     "atypique": 2, // Augmenté pour être au-dessus de Basique
@@ -57,10 +32,17 @@ function getRandomCard(bannerName) {
     return available[0];
 }
 
-// --- NAVIGATION ---
 function switchView(viewId) {
-    document.querySelectorAll('.game-view').forEach(v => v.style.display = 'none');
-    document.getElementById(viewId).style.display = 'block';
+    // Cache absolument tout ce qui a la classe game-view
+    const views = document.querySelectorAll('.game-view');
+    views.forEach(v => v.style.display = 'none');
+
+    // Affiche uniquement la cible
+    const target = document.getElementById(viewId);
+    if (target) {
+        target.style.display = 'block';
+    }
+    
     if (viewId === 'view-deck') renderDeck();
 }
 
@@ -239,7 +221,7 @@ function renderDeck() {
     if (!isGroupedByBanner) {
         deckArray.forEach(card => container.appendChild(createCardHTML(card)));
     } else {
-        ["Anime", "Jeux"].forEach(banner => {
+        ["Anime", "Minecraft"].forEach(banner => {
             const filtered = deckArray.filter(c => c.banner === banner);
             if (filtered.length > 0) {
                 const h2 = document.createElement('h2');
