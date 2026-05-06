@@ -353,22 +353,19 @@ function formatTime(ms) {
 setInterval(updateTimers, 1000);
 
 function claimReward(type) {
-    console.log("Tentative de réclame : " + type); // Debug
+    console.log("Tentative de réclame : " + type);
     const lastClaim = localStorage.getItem('last_claim_' + type) || 0;
     const now = Date.now();
     
-    if (now - lastClaim < COOLDOWNS[type]) {
-        console.log("Cooldown encore actif pour " + type);
-        return;
-    }
+    if (now - lastClaim < COOLDOWNS[type]) return;
 
     currentWheelType = type;
     
-    // 1. Affichage du Popup
+    // 1. On affiche d'abord le popup vide
     const popup = document.getElementById('gacha-popup');
     popup.style.display = 'block';
     
-    // 2. Nettoyage complet des restes de tirages de cartes
+    // 2. Nettoyage de TOUT le contenu précédent (cartes, zones de gacha)
     document.getElementById('popup-results-container').innerHTML = "";
     document.getElementById('single-result-info').innerHTML = "";
     document.getElementById('roulette-zone').style.display = 'none';
@@ -378,29 +375,29 @@ function claimReward(type) {
     // 3. Gestion de la zone de la roue
     let wheelZone = document.getElementById('wheel-zone');
     if (!wheelZone) {
-        console.log("Création de la zone wheel-zone...");
         wheelZone = document.createElement('div');
         wheelZone.id = 'wheel-zone';
-        wheelZone.style.textAlign = "center";
-        // On l'insère dans popup-content
         document.querySelector('.popup-content').appendChild(wheelZone);
     }
     
-    // 4. On réécrit le contenu pour être sûr que le Canvas est propre
+    // 4. On réinitialise le HTML interne pour forcer le rafraîchissement du Canvas
     wheelZone.innerHTML = `
-        <h2 style="color:gold; margin-bottom:10px;">${type === 'hourly' ? 'Chopes de Chance' : 'Tonneau de Fortune'}</h2>
-        <div style="position:relative; display:inline-block; margin: 10px auto;">
-            <canvas id="wheelCanvas" width="300" height="300"></canvas>
-            <div style="position:absolute; top:-15px; left:50%; transform:translateX(-50%); font-size:30px; color:red; z-index:100;">▼</div>
+        <h2 style="color:gold; margin-bottom:15px; font-family:serif;">${type === 'hourly' ? 'CHOPE DE CHANCE' : 'TONNEAU DE FORTUNE'}</h2>
+        <div id="canvas-container" style="position:relative; width:300px; height:300px; margin: 0 auto 20px auto;">
+            <canvas id="wheelCanvas" width="300" height="300" style="display:block;"></canvas>
+            <div id="wheel-pointer" style="position:absolute; top:-15px; left:50%; transform:translateX(-50%); font-size:30px; color:red; z-index:100;">▼</div>
         </div>
-        <br>
-        <button id="btn-spin-wheel" class="pixel-button" style="margin-top:10px;" onclick="spinWheel()">TOURNER !</button>
+        <button id="btn-spin-wheel" class="pixel-button" onclick="spinWheel()">LANCER !</button>
     `;
     
     wheelZone.style.display = 'block';
-    
-    // 5. On dessine la roue
-    setTimeout(initWheel, 50); 
+
+    // 5. IMPORTANT : On attend que le popup soit bien visible avant de dessiner
+    // Si on dessine trop vite alors que display est encore en train de passer à 'block', le canvas reste blanc.
+    setTimeout(() => {
+        initWheel();
+        console.log("Roue initialisée dans le popup");
+    }, 100); 
 }
 
 function closeFortune() {
