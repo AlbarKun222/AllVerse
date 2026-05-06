@@ -361,50 +361,28 @@ function claimReward(type) {
 
     currentWheelType = type;
     
+    // On cible le popup principal
     const popup = document.getElementById('gacha-popup');
-    const resultsContainer = document.getElementById('popup-results-container');
-    const singleInfo = document.getElementById('single-result-info');
-
-    // 1. Affichage du popup
     popup.style.display = 'block';
     
-    // 2. NETTOYAGE RADICAL : On cache les autres éléments internes
-    if (resultsContainer) resultsContainer.style.display = 'none';
-    if (singleInfo) singleInfo.style.display = 'none';
-    document.getElementById('roulette-zone').style.display = 'none';
-    document.getElementById('chest-zone').style.display = 'none';
-    document.getElementById('btn-popup-close').style.display = 'none';
-
-    // 3. Gestion de la zone de la roue
-    let wheelZone = document.getElementById('wheel-zone');
-    if (!wheelZone) {
-        wheelZone = document.createElement('div');
-        wheelZone.id = 'wheel-zone';
-        // On l'insère au tout début du contenu du popup pour être sûr qu'il soit vu
-        document.querySelector('.popup-content').prepend(wheelZone);
-    }
-    
-    // On force l'affichage de la zone
-    wheelZone.style.display = 'block';
-    wheelZone.style.visibility = 'visible';
-    wheelZone.style.opacity = '1';
-
-    wheelZone.innerHTML = `
-        <h2 style="color:gold; text-align:center; margin:10px 0;">ROUE DE FORTUNE</h2>
-        <div style="position:relative; width:300px; height:300px; margin: 0 auto;">
-            <canvas id="wheelCanvas" width="300" height="300" style="background:transparent;"></canvas>
-            <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-size:30px; color:red; z-index:1000;">▼</div>
-        </div>
-        <div style="text-align:center; margin-top:15px;">
-            <button id="btn-spin-wheel" class="pixel-button" onclick="spinWheel()">LANCER !</button>
+    // On vide TOUT ce qu'il y a dans le popup pour être sûr
+    popup.innerHTML = `
+        <div id="wheel-zone" style="text-align: center; padding: 20px; background: rgba(0,0,0,0.9); border: 2px solid gold; border-radius: 15px;">
+            <h2 style="color:gold; margin-bottom:10px;">${type === 'hourly' ? 'CHOPE DE CHANCE' : 'TONNEAU DE FORTUNE'}</h2>
+            <div style="position:relative; display:inline-block; margin: 0 auto;">
+                <canvas id="wheelCanvas" width="300" height="300"></canvas>
+                <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-size:30px; color:red; z-index:100;">▼</div>
+            </div>
+            <br>
+            <button id="btn-spin-wheel" class="pixel-button" style="margin-top:20px; padding:10px 20px;" onclick="spinWheel()">LANCER !</button>
+            <button id="btn-popup-close" class="pixel-button" style="display:none; margin-top:20px;" onclick="closeGachaPopup()">FERMER</button>
         </div>
     `;
-    
-    // 4. On attend un petit délai pour le rendu du Canvas
+
+    // On laisse le temps au DOM de créer le canvas
     setTimeout(() => {
         initWheel();
-        console.log("Roue dessinée avec succès");
-    }, 150); 
+    }, 50); 
 }
 
 function closeFortune() {
@@ -475,53 +453,52 @@ function initWheel() {
 }
 
 function spinWheel() {
-    // 1. Sécurité pour éviter de lancer plusieurs fois le spin
+    // 1. Sécurité : On empêche de relancer si ça tourne déjà
     if (isSpinning) return;
     isSpinning = true;
-    
+
+    // Désactivation du bouton de lancement
     const spinBtn = document.getElementById('btn-spin-wheel');
     if (spinBtn) spinBtn.disabled = true;
 
     const canvas = document.getElementById('wheelCanvas');
-    const rewards = REWARDS_DATA[currentWheelType]; // Charge Hourly ou Daily selon le bouton cliqué
+    const rewards = REWARDS_DATA[currentWheelType]; // Charge les gains Bière ou Baril
     
-    // 2. Calcul d'une rotation aléatoire (minimum 5 tours complets + angle aléatoire)
+    // 2. Calcul de la rotation
+    // 1800 deg = 5 tours complets + un angle aléatoire pour le gain
     const extraDegree = Math.floor(Math.random() * 360);
     const totalRotation = 1800 + extraDegree; 
     
-    // 3. Animation CSS[cite: 1]
+    // 3. Animation CSS fluide
     canvas.style.transition = "transform 4s cubic-bezier(0.15, 0, 0.15, 1)";
     canvas.style.transform = `rotate(${totalRotation}deg)`;
 
-    // 4. Traitement après l'animation (4 secondes)[cite: 1]
+    // 4. Une fois l'animation terminée (4 secondes)
     setTimeout(() => {
-        // Calcul du segment gagnant (aligné sur le pointeur ▼ en haut)[cite: 1]
+        // Calcul du segment gagnant par rapport au pointeur ▼ (situé à 270°)
         const actualDeg = totalRotation % 360;
         const segmentAngle = 360 / rewards.length;
         const winningIndex = Math.floor(((360 - actualDeg + 270) % 360) / segmentAngle);
         const finalReward = rewards[winningIndex];
 
-        // Distribution de la récompense[cite: 1]
+        // Distribution de la récompense
         giveWheelReward(finalReward);
         
-        // ENREGISTREMENT DU TIMER SPÉCIFIQUE[cite: 1]
-        // Cela enregistre 'last_claim_hourly' OU 'last_claim_daily'[cite: 1]
+        // 5. SAUVEGARDE DU TIMER ET MISE À JOUR
+        // On enregistre soit 'last_claim_hourly' soit 'last_claim_daily'
         localStorage.setItem('last_claim_' + currentWheelType, Date.now());
         
-            // Nettoyage de l'interface[cite: 1]
+        // Mise à jour visuelle des boutons sur l'accueil (filtre gris + décompte)
+        updateTimers();
+
+        // 6. Gestion des boutons du Popup
+        if (spinBtn) spinBtn.style.display = 'none'; // Cache le bouton "Lancer"
+        const closeBtn = document.getElementById('btn-popup-close');
+        if (closeBtn) closeBtn.style.display = 'inline-block'; // Affiche le bouton "Fermer"
+
         isSpinning = false;
-        if (spinBtn) spinBtn.disabled = false;
-            
-            // On cache la roue
-        document.getElementById('wheel-zone').style.display = 'none';
         
-        // On ré-affiche les conteneurs normaux pour les prochains tirages
-        document.getElementById('popup-results-container').style.display = 'flex';
-        document.getElementById('btn-popup-close').style.display = 'inline-block';
-        
-        localStorage.setItem('last_claim_' + currentWheelType, Date.now());
-        updateTimers(); 
-    }, 4000);
+    }, 4000); 
 }
 
 function giveWheelReward(reward) {
