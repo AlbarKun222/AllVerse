@@ -354,14 +354,16 @@ body { background: #1a1a2e; color: white; font-family: sans-serif; margin: 0; ov
 }
 
 #wheel-zone {
-    width: 100%;
-    margin-top: 10px;
+    z-index: 9999; /* Au-dessus de tout */
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #wheelCanvas {
-    max-width: 100%;
-    height: auto;
+    border: 4px solid #fff;
     border-radius: 50%;
-    border: 5px solid #333;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }

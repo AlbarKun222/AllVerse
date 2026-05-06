@@ -361,13 +361,16 @@ function claimReward(type) {
 
     currentWheelType = type;
     
-    // 1. On affiche d'abord le popup vide
     const popup = document.getElementById('gacha-popup');
+    const resultsContainer = document.getElementById('popup-results-container');
+    const singleInfo = document.getElementById('single-result-info');
+
+    // 1. Affichage du popup
     popup.style.display = 'block';
     
-    // 2. Nettoyage de TOUT le contenu précédent (cartes, zones de gacha)
-    document.getElementById('popup-results-container').innerHTML = "";
-    document.getElementById('single-result-info').innerHTML = "";
+    // 2. NETTOYAGE RADICAL : On cache les autres éléments internes
+    if (resultsContainer) resultsContainer.style.display = 'none';
+    if (singleInfo) singleInfo.style.display = 'none';
     document.getElementById('roulette-zone').style.display = 'none';
     document.getElementById('chest-zone').style.display = 'none';
     document.getElementById('btn-popup-close').style.display = 'none';
@@ -377,27 +380,31 @@ function claimReward(type) {
     if (!wheelZone) {
         wheelZone = document.createElement('div');
         wheelZone.id = 'wheel-zone';
-        document.querySelector('.popup-content').appendChild(wheelZone);
+        // On l'insère au tout début du contenu du popup pour être sûr qu'il soit vu
+        document.querySelector('.popup-content').prepend(wheelZone);
     }
     
-    // 4. On réinitialise le HTML interne pour forcer le rafraîchissement du Canvas
+    // On force l'affichage de la zone
+    wheelZone.style.display = 'block';
+    wheelZone.style.visibility = 'visible';
+    wheelZone.style.opacity = '1';
+
     wheelZone.innerHTML = `
-        <h2 style="color:gold; margin-bottom:15px; font-family:serif;">${type === 'hourly' ? 'CHOPE DE CHANCE' : 'TONNEAU DE FORTUNE'}</h2>
-        <div id="canvas-container" style="position:relative; width:300px; height:300px; margin: 0 auto 20px auto;">
-            <canvas id="wheelCanvas" width="300" height="300" style="display:block;"></canvas>
-            <div id="wheel-pointer" style="position:absolute; top:-15px; left:50%; transform:translateX(-50%); font-size:30px; color:red; z-index:100;">▼</div>
+        <h2 style="color:gold; text-align:center; margin:10px 0;">ROUE DE FORTUNE</h2>
+        <div style="position:relative; width:300px; height:300px; margin: 0 auto;">
+            <canvas id="wheelCanvas" width="300" height="300" style="background:transparent;"></canvas>
+            <div style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-size:30px; color:red; z-index:1000;">▼</div>
         </div>
-        <button id="btn-spin-wheel" class="pixel-button" onclick="spinWheel()">LANCER !</button>
+        <div style="text-align:center; margin-top:15px;">
+            <button id="btn-spin-wheel" class="pixel-button" onclick="spinWheel()">LANCER !</button>
+        </div>
     `;
     
-    wheelZone.style.display = 'block';
-
-    // 5. IMPORTANT : On attend que le popup soit bien visible avant de dessiner
-    // Si on dessine trop vite alors que display est encore en train de passer à 'block', le canvas reste blanc.
+    // 4. On attend un petit délai pour le rendu du Canvas
     setTimeout(() => {
         initWheel();
-        console.log("Roue initialisée dans le popup");
-    }, 100); 
+        console.log("Roue dessinée avec succès");
+    }, 150); 
 }
 
 function closeFortune() {
@@ -501,18 +508,20 @@ function spinWheel() {
         // Cela enregistre 'last_claim_hourly' OU 'last_claim_daily'[cite: 1]
         localStorage.setItem('last_claim_' + currentWheelType, Date.now());
         
-        // Nettoyage de l'interface[cite: 1]
+            // Nettoyage de l'interface[cite: 1]
         isSpinning = false;
         if (spinBtn) spinBtn.disabled = false;
-        
-        // Masquer la roue et afficher le bouton Fermer du popup Gacha[cite: 1]
+            
+            // On cache la roue
         document.getElementById('wheel-zone').style.display = 'none';
+        
+        // On ré-affiche les conteneurs normaux pour les prochains tirages
+        document.getElementById('popup-results-container').style.display = 'flex';
         document.getElementById('btn-popup-close').style.display = 'inline-block';
         
-        // Mise à jour visuelle des boutons sur l'accueil (filtre gris et timers)[cite: 1]
-        updateTimers();
-        
-    }, 4000); 
+        localStorage.setItem('last_claim_' + currentWheelType, Date.now());[cite: 1]
+        updateTimers(); 
+    }, 4000);
 }
 
 function giveWheelReward(reward) {
